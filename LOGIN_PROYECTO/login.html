@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrotech - Iniciar Sesión</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+         
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .error-message {
+            font-size: 0.875rem;
+            color: #ef4444;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .input-error {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 0 1px #ef4444 !important;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .modal-content {
+            background: linear-gradient(to bottom, #0f172a, #1e293b);
+            border: 1px solid #334155;
+            border-radius: 1rem;
+            max-width: 500px;
+            width: 90%;
+            padding: 2rem;
+            position: relative;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .bg-image {
+            background-image: url(assets/fondo.jpg);
+            background-size: cover;
+            background-position: center;
+        }
+
+    </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen">
+
+    <div class="content min-h-screen">
+        <form class="form min-h-screen" method="post">
+            <div class="flex flex-col lg:flex-row h-screen">
+
+                <!-- Imagen principal con overlay - Solo visible en desktop -->
+                <div class="hidden lg:block relative lg:w-[62.5%] bg-image">
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent to-slate-950/50"></div>
+                    <!-- Puedes reemplazar bg-image con tu imagen real -->
+                </div>
+
+                <!-- Panel de login -->
+                <div class="relative flex-1 bg-slate-950 flex flex-col justify-center px-8 lg:px-12 py-12">
+                    
+                    <!-- Logo -->
+                    <div class="absolute top-8 right-8 fade-in">
+                        <div class ="w-20 h-20 bg-gradient-to-br from-cyan-500 to-cyan-700 rounded-full flex items-center justify-center"> 
+                                <img src="/assets/logo.png" alt="Logo" class="w-full h-full object-contain"> 
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="max-w-md w-full mx-auto space-y-8 fade-in">
+                        
+                        <!-- Título -->
+                        <div class="text-center lg:text-left">
+                            <h1 class="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent mb-2">
+                                Bienvenido
+                            </h1>
+                            <p class="text-slate-400 text-sm">Ingresa tus credenciales para continuar</p>
+                        </div>
+
+                        <!-- Campos del formulario -->
+                        <div class="space-y-6">
+                            
+                            <!-- Campo de correo -->
+                            <div>
+                                <label for="email" class="block text-sm font-semibold text-slate-200 mb-2">
+                                    Correo Electrónico
+                                </label>
+                                <input 
+                                    type="email"
+                                    required
+                                    placeholder="tu@correo.com"
+                                    class="w-full rounded-lg bg-slate-900/50 backdrop-blur-sm px-4 py-3 text-sm text-white 
+                                           border border-slate-800 outline-none transition-all duration-200
+                                           focus:ring-2 focus:ring-cyan-600 focus:border-transparent
+                                           hover:border-slate-700"
+                                    id="email"
+                                    autocomplete="email"
+                                >
+                                <span class="error-message" id="email-error"></span>
+                            </div>
+
+                            <!-- Campo de contraseña -->
+                            <div>
+                                <label for="password" class="block text-sm font-semibold text-slate-200 mb-2">
+                                    Contraseña
+                                </label>
+                                <div class="relative">
+                                    <input 
+                                        type="password"
+                                        required
+                                        class="w-full rounded-lg bg-slate-900/50 backdrop-blur-sm px-4 py-3 pr-12 text-sm text-white 
+                                               border border-slate-800 outline-none transition-all duration-200
+                                               focus:ring-2 focus:ring-cyan-600 focus:border-transparent
+                                               hover:border-slate-700"
+                                        id="password"
+                                        autocomplete="current-password"
+                                    >
+                                    <button 
+                                        type="button" 
+                                        id="togglePassword"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors"
+                                        aria-label="Mostrar contraseña"
+                                    >
+                                        <svg class="w-5 h-5" id="eyeIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <span class="error-message" id="password-error"></span>
+                            </div>
+
+                            <!-- Recordarme y olvidaste contraseña -->
+                            <div class="flex items-center justify-between text-sm">
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="checkbox" class="w-4 h-4 rounded border-slate-700 bg-slate-900 text-cyan-600 focus:ring-cyan-600 focus:ring-offset-slate-950">
+                                    <span class="ml-2 text-slate-400">Recordarme</span>
+                                </label>
+                                <a href="#" class="text-cyan-500 hover:text-cyan-400 transition-colors">
+                                    ¿Olvidaste tu contraseña?
+                                </a>
+                            </div>
+
+                            <!-- Botón de envío -->
+                            <button
+                                type="submit"
+                                id="sendButton"
+                                class="w-full rounded-lg overflow-hidden
+                                       bg-gradient-to-r from-cyan-600 to-cyan-700
+                                       hover:from-cyan-500 hover:to-cyan-600
+                                       border border-cyan-500/50 py-3 text-center font-bold text-white
+                                       transform transition-all duration-200
+                                       hover:scale-[1.02] hover:shadow-lg hover:shadow-cyan-500/25
+                                       active:scale-[0.98]
+                                       disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100
+                                       flex items-center justify-center gap-2"
+                            >
+                                <span id="buttonText">Iniciar sesión</span>
+                                <svg id="loadingSpinner" class="hidden w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </button>
+
+                        </div>
+
+                        <!-- Registro -->
+                        <div class="text-center text-sm text-slate-400 pt-4 border-t border-slate-800">
+                            ¿No tienes una cuenta? 
+                            <a href="#" class="text-cyan-500 hover:text-cyan-400 font-semibold transition-colors ml-1">
+                                Regístrate aquí
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <!-- Modal de recuperación de contraseña -->
+    <div id="recoveryModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-start mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-white mb-2">Recuperar Contraseña</h2>
+                    <p class="text-slate-400 text-sm">Te enviaremos un enlace de recuperación a tu correo</p>
+                </div>
+                <button id="closeModal" class="text-slate-400 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <form id="recoveryForm">
+                <div class="mb-6">
+                    <label for="recoveryEmail" class="block text-sm font-semibold text-slate-200 mb-2">
+                        Correo Electrónico
+                    </label>
+                    <input 
+                        type="email"
+                        required
+                        placeholder="tu@correo.com"
+                        class="w-full rounded-lg bg-slate-900/50 backdrop-blur-sm px-4 py-3 text-sm text-white 
+                               border border-slate-800 outline-none transition-all duration-200
+                               focus:ring-2 focus:ring-cyan-600 focus:border-transparent
+                               hover:border-slate-700"
+                        id="recoveryEmail"
+                    >
+                    <span class="error-message" id="recoveryEmail-error"></span>
+                </div>
+
+                <div id="successMessage" class="hidden mb-4 p-4 bg-green-900/30 border border-green-700 rounded-lg">
+                    <div class="flex items-start gap-3">
+                        <svg class="w-5 h-5 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <div>
+                            <p class="text-green-400 font-semibold text-sm">¡Correo enviado!</p>
+                            <p class="text-green-300/80 text-sm mt-1">Revisa tu bandeja de entrada para restablecer tu contraseña.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-3">
+                    <button
+                        type="button"
+                        id="cancelRecovery"
+                        class="flex-1 rounded-lg px-4 py-3 text-center font-semibold text-slate-300
+                               border border-slate-700 hover:bg-slate-800 transition-all duration-200"
+                    >
+                        Cancelar
+                    </button>
+                    <button
+                        type="submit"
+                        id="sendRecovery"
+                        class="flex-1 rounded-lg overflow-hidden
+                               bg-gradient-to-r from-cyan-600 to-cyan-700
+                               hover:from-cyan-500 hover:to-cyan-600
+                               border border-cyan-500/50 py-3 text-center font-bold text-white
+                               transform transition-all duration-200
+                               hover:scale-[1.02] hover:shadow-lg hover:shadow-cyan-500/25
+                               active:scale-[0.98]
+                               disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100
+                               flex items-center justify-center gap-2"
+                    >
+                        <span id="recoveryButtonText">Enviar enlace</span>
+                        <svg id="recoverySpinner" class="hidden w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="JS/script.js">
+        
+    </script>
+   
+
+</body>
+</html>
